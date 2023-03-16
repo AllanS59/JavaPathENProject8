@@ -48,8 +48,7 @@ public class TestRewardsService {
 		Attraction attraction = gpsUtil.getAttractions().get(0);
 		assertTrue(rewardsService.isWithinAttractionProximity(attraction, attraction));
 	}
-	
-	@Ignore // Needs fixed - can throw ConcurrentModificationException
+
 	@Test
 	public void nearAllAttractions() {
 		TourGuideModule tourGuideModule = new TourGuideModule();
