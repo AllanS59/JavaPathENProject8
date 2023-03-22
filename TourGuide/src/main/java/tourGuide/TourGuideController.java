@@ -1,6 +1,7 @@
 package tourGuide;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,13 +27,13 @@ public class TourGuideController {
     }
     
     @RequestMapping("/getLocation") 
-    public String getLocation(@RequestParam String userName) {
+    public String getLocation(@RequestParam String userName) throws ExecutionException, InterruptedException {
     	VisitedLocation visitedLocation = tourGuideService.getUserLocation(getUser(userName));
 		return JsonStream.serialize(visitedLocation.location);
     }
 
     @RequestMapping("/getNearbyAttractions") 
-    public String getNearbyAttractions(@RequestParam String userName) {
+    public String getNearbyAttractions(@RequestParam String userName) throws ExecutionException, InterruptedException {
     	return JsonStream.serialize(tourGuideService.getNearByAttractionsWithInfos(userName));
     }
     

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -37,16 +38,16 @@ import tourGuide.TourGuideModule;
 @Service
 public class TourGuideService {
 	private Logger logger = LoggerFactory.getLogger(TourGuideService.class);
-	private final GpsUtil gpsUtil;
-	private final RewardCentral rewardCentral;
+	private GpsUtilService gpsUtilService;
+	private RewardCentral rewardCentral;
 	private final RewardsService rewardsService;
 	private final TourGuideModule tourGuideModule = new TourGuideModule();
 	private final TripPricer tripPricer = tourGuideModule.getTripPricer();
 	public final Tracker tracker;
 	boolean testMode = true;
 
-	public TourGuideService(GpsUtil gpsUtil, RewardsService rewardsService) {
-		this.gpsUtil = gpsUtil;
+	public TourGuideService(GpsUtilService gpsUtilService, RewardsService rewardsService) {
+		this.gpsUtilService = gpsUtilService;
 		this.rewardsService = rewardsService;
 
 		if(testMode) {
@@ -63,7 +64,7 @@ public class TourGuideService {
 		return user.getUserRewards();
 	}
 
-	public VisitedLocation getUserLocation(User user) {
+	public VisitedLocation getUserLocation(User user) throws ExecutionException, InterruptedException {
 		VisitedLocation visitedLocation = (user.getVisitedLocations().size() > 0) ?
 			user.getLastVisitedLocation() :
 			trackUserLocation(user);
@@ -92,8 +93,8 @@ public class TourGuideService {
 		return providers;
 	}
 
-	public VisitedLocation trackUserLocation(User user) {
-		VisitedLocation visitedLocation = gpsUtil.getUserLocation(user.getUserId());
+	public VisitedLocation trackUserLocation(User user) throws ExecutionException, InterruptedException {
+		VisitedLocation visitedLocation = gpsUtilService.getUserLocation(user.getUserId());
 		user.addToVisitedLocations(visitedLocation);
 		rewardsService.calculateRewards(user);
 		return visitedLocation;
@@ -103,7 +104,7 @@ public class TourGuideService {
 		List<Attraction> nearbyAttractions = new ArrayList<>();
 		Map<Attraction, Double > map = new HashMap<>();
 
-		for(Attraction attraction : gpsUtil.getAttractions()) {
+		for(Attraction attraction : gpsUtilService.getAttractions()) {
 			map.put(attraction, rewardsService.getDistance(attraction, visitedLocation.location));
 		}
 		Map<Attraction, Double> mapSortedByDistance = map.entrySet().stream()
@@ -118,7 +119,7 @@ public class TourGuideService {
 
 
 		//Map<Attraction, Double > map = new TreeMap<>();
-		//for(Attraction attraction : gpsUtil.getAttractions()) {
+		//for(Attraction attraction : gpsUtilService.getAttractions()) {
 		//	map.put(attraction, rewardsService.getDistance(attraction, visitedLocation.location));
 		//}
 		//
@@ -134,7 +135,7 @@ public class TourGuideService {
 	}
 
 
-	public NearbyAttractionsListDTO getNearByAttractionsWithInfos (String userName){
+	public NearbyAttractionsListDTO getNearByAttractionsWithInfos (String userName) throws ExecutionException, InterruptedException {
 
 		NearbyAttractionsListDTO nearbyAttractionsListDTO = new NearbyAttractionsListDTO();
 
