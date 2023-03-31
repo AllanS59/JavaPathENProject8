@@ -117,20 +117,6 @@ public class TourGuideService {
 			}
 		});
 
-
-		//Map<Attraction, Double > map = new TreeMap<>();
-		//for(Attraction attraction : gpsUtilService.getAttractions()) {
-		//	map.put(attraction, rewardsService.getDistance(attraction, visitedLocation.location));
-		//}
-		//
-		//Set<Map.Entry<Attraction, Double>> entries = map.entrySet();
-		//
-		//entries.forEach( entry -> {
-		//	if (nearbyAttractions.size()< 5){
-		//		nearbyAttractions.add(entry.getKey());
-		//	}
-		//});
-
 		return nearbyAttractions;
 	}
 

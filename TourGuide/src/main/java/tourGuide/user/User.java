@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 
 import gpsUtil.location.VisitedLocation;
 import tripPricer.Provider;
@@ -70,8 +71,10 @@ public class User {
 	}
 	
 	public void addUserReward(UserReward userReward) {
-		if(userRewards.stream().filter(r -> r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
-			userRewards.add(userReward);
+		AtomicReference<List<UserReward>> atomicReference = new AtomicReference();
+		atomicReference.set(userRewards);
+		if(atomicReference.get().stream().filter(r -> r.attraction.attractionName.equals(userReward.attraction)).count() == 0) {
+			atomicReference.get().add(userReward);
 		}
 	}
 	
