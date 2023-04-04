@@ -1,4 +1,4 @@
-package tourGuide.Domain;
+package tourGuide.domain;
 
 import java.util.List;
 import gpsUtil.location.VisitedLocation;

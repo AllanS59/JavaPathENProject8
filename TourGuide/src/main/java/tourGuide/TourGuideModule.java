@@ -5,12 +5,10 @@ import org.springframework.context.annotation.Configuration;
 
 import gpsUtil.GpsUtil;
 import rewardCentral.RewardCentral;
-import tourGuide.service.GpsUtilService;
 import tripPricer.TripPricer;
-import tourGuide.service.RewardsService;
-import tourGuide.Domain.GpsUtilOptim;
-import tourGuide.Domain.RewardCentralOptim;
-import tourGuide.Domain.TripPricerOptim;
+import tourGuide.domain.GpsUtilOptim;
+import tourGuide.domain.RewardCentralOptim;
+import tourGuide.domain.TripPricerOptim;
 
 @Configuration
 public class TourGuideModule {

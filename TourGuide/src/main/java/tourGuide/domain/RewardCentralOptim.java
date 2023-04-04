@@ -1,4 +1,4 @@
-package tourGuide.Domain;
+package tourGuide.domain;
 
 import rewardCentral.RewardCentral;
 

@@ -1,4 +1,4 @@
-package tourGuide.Domain;
+package tourGuide.domain;
 import gpsUtil.GpsUtil;
 
 import gpsUtil.location.Location;

@@ -1,4 +1,4 @@
-package tourGuide.Domain;
+package tourGuide.domain;
 import tripPricer.Provider;
 import tripPricer.TripPricer;
 

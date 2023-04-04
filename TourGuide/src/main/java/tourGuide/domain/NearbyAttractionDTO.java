@@ -1,4 +1,4 @@
-package tourGuide.Domain;
+package tourGuide.domain;
 import gpsUtil.location.Location;
 
 public class NearbyAttractionDTO {
